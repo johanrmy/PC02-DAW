@@ -44,12 +44,11 @@ public class SActualizar extends HttpServlet {
 			pst.setDouble(3, pCompra);
 			pst.setDouble(4, pVenta);
 			pst.setInt(5, idProducto);
-			pst.execute();
-			RequestDispatcher rd = request.getRequestDispatcher("filtro.jsp");
+			pst.executeUpdate();
+			RequestDispatcher rd = request.getRequestDispatcher("SListado");
 			rd.forward(request, response);
 		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al buscar producto");
+			JOptionPane.showMessageDialog(null, "Error al actualizar producto");
 		}
 	}
-
 }

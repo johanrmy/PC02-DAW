@@ -49,4 +49,14 @@
     <servlet-name>SActualizar</servlet-name>
     <url-pattern>/SActualizar</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SEditar</display-name>
+    <servlet-name>SEditar</servlet-name>
+    <servlet-class>controller.SEditar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SEditar</servlet-name>
+    <url-pattern>/SEditar</url-pattern>
+  </servlet-mapping>
 </web-app>

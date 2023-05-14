@@ -41,7 +41,7 @@ public class SListado extends HttpServlet {
 				p.setNombre(data.getString(2));
 				p.setStock(data.getInt(3));
 				p.setpCompra(data.getDouble(4));
-				p.setpVenta(0);
+				p.setpVenta(data.getDouble(5));
 				lista.add(p);
 			}
 			}catch(Exception e) {

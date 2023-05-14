@@ -11,32 +11,45 @@ import model.Producto;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class SEliminar extends HttpServlet {
-	public PreparedStatement pst;
-	public String msg;
+public class SEditar extends HttpServlet {
+	public Statement sen;
+	public ResultSet data;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		processRequest(request, response);
 	}
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Conexion c = new Conexion();
 		Connection conn = c.conexion();
-		int idProducto = Integer.parseInt(request.getParameter("idProducto"));
+		ArrayList lista = new ArrayList();
+		String idProducto = request.getParameter("idProducto");
 		try {
-			pst = conn.prepareStatement("DELETE FROM producto WHERE idProducto=?");
-			pst.setInt(1, idProducto);
-			pst.executeUpdate();
-			RequestDispatcher rd = request.getRequestDispatcher("SListado");
-			rd.forward(request, response);
-		} catch (SQLException e) {
-			JOptionPane.showMessageDialog(null, "Error al eliminar producto");
-		}
+			sen = conn.createStatement();
+			data = sen.executeQuery("SELECT * FROM producto WHERE idProducto="+idProducto);
+			while(data.next()) {
+				Producto p = new Producto();
+				p.setIdProducto(data.getString(1));
+				p.setNombre(data.getString(2));
+				p.setStock(data.getInt(3));
+				p.setpCompra(data.getDouble(4));
+				p.setpVenta(data.getDouble(5));
+				lista.add(p);
+			}
+			}catch(Exception e) {
+				JOptionPane.showMessageDialog(null, "Error en la consulta");
+			}
+		request.setAttribute("lista_productos", lista);
+		RequestDispatcher rd = request.getRequestDispatcher("editar.jsp");
+		rd.forward(request, response);
 	}
+
 }
